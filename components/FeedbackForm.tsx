@@ -21,13 +21,21 @@ const FeedbackForm: FC = () => {
     setErrorMessage('');
 
     try {
+      // Using form data instead of JSON for better compatibility
+      const formData = new FormData();
+      Object.entries(formState).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
       const response = await fetch('https://formspree.io/f/xgegdvnj', {
         method: 'POST',
+        body: formData,
         headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formState)
+          'Accept': 'application/json'
+        }
       });
+
+      const responseData = await response.json();
 
       if (response.ok) {
         setStatus('success');
@@ -38,11 +46,15 @@ const FeedbackForm: FC = () => {
           message: ''
         });
       } else {
-        throw new Error('Falha ao enviar o formulário');
+        throw new Error(responseData.error || 'Falha ao enviar o formulário');
       }
     } catch (error) {
+      console.error('Form submission error:', error);
       setStatus('error');
-      setErrorMessage('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente.');
+      setErrorMessage(
+        'Ocorreu um erro ao enviar o formulário. Por favor, verifique sua conexão e tente novamente. ' +
+        'Se o problema persistir, você pode entrar em contato diretamente por email.'
+      );
     }
   };
 
@@ -51,6 +63,11 @@ const FeedbackForm: FC = () => {
       ...prev,
       [e.target.name]: e.target.value
     }));
+  };
+
+  const resetForm = () => {
+    setStatus('idle');
+    setErrorMessage('');
   };
 
   return (
@@ -63,16 +80,32 @@ const FeedbackForm: FC = () => {
           animate={{ opacity: 1, y: 0 }}
           className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg mb-4"
         >
-          <p className="text-white">
+          <p className="text-white mb-4">
             Obrigado pelo seu feedback! Sua mensagem foi enviada com sucesso.
           </p>
+          <button
+            onClick={resetForm}
+            className="text-white/80 hover:text-white underline text-sm"
+          >
+            Enviar outro feedback
+          </button>
         </motion.div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           {status === 'error' && (
-            <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-lg mb-4">
-              <p className="text-white">{errorMessage}</p>
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="p-4 bg-red-500/20 border border-red-500/30 rounded-lg mb-4"
+            >
+              <p className="text-white mb-2">{errorMessage}</p>
+              <a
+                href="mailto:fabio.filho25453@alunos.ufersa.edu.br"
+                className="text-white/80 hover:text-white underline text-sm"
+              >
+                Enviar por email diretamente
+              </a>
+            </motion.div>
           )}
           
           <div>
@@ -86,6 +119,8 @@ const FeedbackForm: FC = () => {
               value={formState.name}
               onChange={handleChange}
               required
+              minLength={2}
+              maxLength={100}
               className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-white/40 text-sm sm:text-base"
               disabled={status === 'submitting'}
             />
@@ -102,6 +137,7 @@ const FeedbackForm: FC = () => {
               value={formState.email}
               onChange={handleChange}
               required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
               className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-white/40 text-sm sm:text-base"
               disabled={status === 'submitting'}
             />
@@ -137,6 +173,8 @@ const FeedbackForm: FC = () => {
               value={formState.message}
               onChange={handleChange}
               required
+              minLength={10}
+              maxLength={1000}
               rows={4}
               className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-white/40 text-sm sm:text-base"
               disabled={status === 'submitting'}
@@ -151,7 +189,13 @@ const FeedbackForm: FC = () => {
             disabled={status === 'submitting'}
           >
             {status === 'submitting' ? (
-              'Enviando...'
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Enviando...
+              </>
             ) : (
               <>
                 Enviar Feedback
