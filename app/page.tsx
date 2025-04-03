@@ -25,6 +25,7 @@ import StudentResourcesSection from '../components/StudentResourcesSection';
 import NewsAndEventsSection from '../components/NewsAndEventsSection';
 import OpportunitiesSection from '../components/OpportunitiesSection';
 import CurriculumSection from '../components/CurriculumSection';
+import FeedbackForm from '../components/FeedbackForm';
 
 const Home: FC = () => {
   const { scrollYProgress } = useScroll();
@@ -286,66 +287,7 @@ const Home: FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <h3 className="text-2xl font-bold mb-6">Feedback e Sugestões</h3>
-                <form
-                  action="https://formspree.io/f/xgegdvnj"
-                  method="POST"
-                  className="space-y-4"
-                >
-                  <div>
-                    <label htmlFor="name" className="block mb-2 text-sm sm:text-base">Nome</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-white/40 text-sm sm:text-base"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block mb-2 text-sm sm:text-base">E-mail</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-white/40 text-sm sm:text-base"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="type" className="block mb-2 text-sm sm:text-base">Tipo de Feedback</label>
-                    <select
-                      id="type"
-                      name="type"
-                      required
-                      className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-white/40 text-sm sm:text-base"
-                    >
-                      <option value="suggestion">Sugestão</option>
-                      <option value="interest">Interesse em Participar</option>
-                      <option value="question">Dúvida</option>
-                      <option value="other">Outro</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block mb-2 text-sm sm:text-base">Mensagem</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={4}
-                      className="w-full px-4 py-2 rounded bg-white/10 border border-white/20 focus:outline-none focus:border-white/40 text-sm sm:text-base"
-                    ></textarea>
-                  </div>
-                  <motion.button
-                    type="submit"
-                    className="w-full py-3 px-6 bg-white text-primary font-semibold rounded hover:bg-white/90 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Enviar Feedback
-                    <FaArrowRight size={16} />
-                  </motion.button>
-                </form>
+                <FeedbackForm />
               </motion.div>
             </div>
 
@@ -367,8 +309,9 @@ const Home: FC = () => {
               </div>
               <div className="mt-8 p-4 bg-white/10 rounded-lg mx-4">
                 <p className="text-sm">
-                  Este é um projeto desenvolvido por Fábio Roberto, aluno do primeiro 
-                  semestre de Ciência da Computação na UFERSA. Para mais informações 
+                  Este é um projeto desenvolvido por Fábio Gurgel, aluno do primeiro
+                  semestre de Ciência da Computação da UFERSA. Para mais informações,
+                  entre em contato através do formulário acima
                   ou contato direto: <a href="mailto:fabio.filho25453@alunos.ufersa.edu.br" className="underline hover:text-white/80">fabio.filho25453@alunos.ufersa.edu.br</a>
                 </p>
               </div>

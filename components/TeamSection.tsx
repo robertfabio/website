@@ -11,9 +11,9 @@ type TeamMember = {
 
 const teamMembers: TeamMember[] = [
   {
-    name: "Fábio Roberto",
+    name: "Fábio Gurgel",
     role: "Idealizador",
-    imageUrl: "https://placehold.co/400x400/003366/ffffff.png?text=Fábio+Roberto"
+    imageUrl: "https://placehold.co/400x400/003366/ffffff.png?text=Fábio+Gurgel"
   }
 ];
 

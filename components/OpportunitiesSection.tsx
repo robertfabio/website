@@ -60,11 +60,11 @@ const OpportunitiesSection: FC = () => {
   const getIcon = (type: Opportunity['type']) => {
     switch (type) {
       case 'internship':
-        return <FaLaptopCode className="w-6 h-6" />;
+        return <FaLaptopCode size={24} />;
       case 'research':
-        return <FaFlask className="w-6 h-6" />;
+        return <FaFlask size={24} />;
       case 'job':
-        return <FaBriefcase className="w-6 h-6" />;
+        return <FaBriefcase size={24} />;
     }
   };
 
