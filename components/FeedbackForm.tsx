@@ -21,13 +21,10 @@ const FeedbackForm: FC = () => {
     setErrorMessage('');
 
     try {
-      // Using form data instead of JSON for better compatibility
-      const formData = new FormData();
-      Object.entries(formState).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
+      const form = e.target as HTMLFormElement;
+      const formData = new FormData(form);
 
-      const response = await fetch('https://formspree.io/f/xgegdvnj', {
+      const response = await fetch(form.action, {
         method: 'POST',
         body: formData,
         headers: {
@@ -91,7 +88,12 @@ const FeedbackForm: FC = () => {
           </button>
         </motion.div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form 
+          action="https://formspree.io/f/xgegdvnj"
+          method="POST"
+          onSubmit={handleSubmit} 
+          className="space-y-4"
+        >
           {status === 'error' && (
             <motion.div
               initial={{ opacity: 0 }}
